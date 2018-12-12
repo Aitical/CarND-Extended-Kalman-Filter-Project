@@ -60,6 +60,17 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   } else {
     rho_dot = (x_(0)*x_(2) + x_(1)*x_(3))/rho;
   }
+
+  // add normalize
+  while ((phi - z(1)) > M_PI/ 2)
+  {
+    phi = phi - M_PI;
+  }
+  while ((z(1) - phi) > M_PI /2)
+  {
+    phi = phi + M_PI;
+  }
+
   VectorXd z_pred(3);
   z_pred << rho, phi, rho_dot;
   VectorXd y = z - z_pred;
